@@ -1,13 +1,50 @@
-/* Your Code Here */
 
-/*
- We're giving you this function. Take a look at it, you might see some usage
- that's new and different. That's because we're avoiding a well-known, but
- sneaky bug that we'll cover in the next few lessons!
+function createEmployeeRecord(array) {
+    let [firstName, familyName, title, payPerHour] = array;
+     return {
+     firstName,
+     familyName,
+     title,
+     payPerHour,
+     timeInEvents: [],
+     timeOutEvents: [],
+     };
+  
+    }
 
- As a result, the lessons for this function will pass *and* it will be available
- for you to use if you need it!
- */
+  function createEmployeeRecords(arrays){
+      return arrays.map(createEmployeeRecord)
+  }
+  function createTimeInEvent(dateTime){
+      let [date, hour] = dateTime.split(' ');
+      this.timeInEvents.push({
+        type: 'TimeIn',
+        hour: parseInt(hour, 10),      
+        date: date,
+      });
+      return this
+  
+  }
+  function createTimeOutEvent(clockOut){
+      let [date, hour] = clockOut.split(' ');
+      this.timeOutEvents.push({
+        type: 'TimeOut',
+        hour: parseInt (hour, 10),      
+        date: date,
+      });
+      return this
+  
+  }
+  function hoursWorkedOnDate(dateWorked){
+      let timeIn = this.timeInEvents.find(event => event.date === dateWorked);
+      let timeOut = this.timeOutEvents.find(event => event.date === dateWorked);
+      return (timeOut.hour - timeIn.hour) / 100;
+  }
+  function wagesEarnedOnDate(dateWorked){
+      return hoursWorkedOnDate.call(this, dateWorked) * this.payPerHour
+  
+  }
+  
 
 const allWagesFor = function () {
     const eligibleDates = this.timeInEvents.map(function (e) {
@@ -19,5 +56,15 @@ const allWagesFor = function () {
     }.bind(this), 0) // <== Hm, why did we need to add bind() there? We'll discuss soon!
 
     return payable
+}
+
+
+function findEmployeeByFirstName(arrays, firstName){
+    return arrays.find(record => record.firstName === firstName);
+
+}
+
+function calculatePayroll(employees) {
+    return employees.reduce((memo,employee) => memo + allWagesFor.call(employee), 0);
 }
 
